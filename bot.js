@@ -81,7 +81,7 @@ client.on("message", async message => {
     if (!reason) reason = "No reason provided";
 
     member.roles.add(role);
-    client.channel.cache('729063166557814869').send(
+    client.channel.cache.get('729063166557814869').send(
       `${member.user.tag} has been muted by ${message.author.tag} because: ${reason}`
     );
     return message.reply(
@@ -99,7 +99,7 @@ client.on("message", async message => {
         return message.reply('Make sure you have pinged the user you want to mute and included time in seconds');
       }
       member.roles.add(mutedRole);
-    client.channel.cache('729063166557814869').send(
+    client.channel.cache.get('729063166557814869').send(
       `${member.user.tag} has been tempmuted by ${message.author.tag} for: ${sec} seconds`
     );
       setTimeout(() => {member.roles.remove(mutedRole);}, sec * 1000);
@@ -115,7 +115,7 @@ client.on("message", async message => {
       return message.reply("Please mention a valid member of this server");
 
     member.roles.remove(role);
-    client.channel.cache('729063166557814869').send(
+    client.channel.cache.get('729063166557814869').send(
       `${member.user.tag} has been unmuted by ${message.author.tag}`
     );
     return message.channel.send(
@@ -215,7 +215,7 @@ client.on("message", async message => {
     message.channel.send(
       `${member.user} has been kicked by ${message.author} because: ${reason}`
     );
-    client.channel.cache('729063166557814869').send(
+    client.channel.cache.get('729063166557814869').send(
       `${member.user.tag} has been kicked by ${message.author.tag} because: ${reason}`
     );
   }
@@ -259,7 +259,7 @@ client.on("message", async message => {
     message.channel.send(
       `${member.user} has been banned by ${message.author} because: ${reason}`
     );
-    client.channel.cache('729063166557814869').send(
+    client.channel.cache.get('729063166557814869').send(
       `${member.user.tag} has been banned by ${message.author.tag} because: ${reason}`
     );
   }
@@ -312,7 +312,7 @@ client.on("message", async message => {
     message.channel.send(
       `${member.user} has been tempbanned by ${message.author} because: ${reason} for: ${sec}`
     );
-    client.channel.cache('729063166557814869').send(
+    client.channel.cache.get('729063166557814869').send(
       `${member.user.tag} has been tempbanned by ${message.author.tag} because: ${reason} for: ${sec}`
     );
     setTimeout(() => {message.guild.members.unban(member);}, sec * 1000);
