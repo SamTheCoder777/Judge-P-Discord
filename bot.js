@@ -32,6 +32,7 @@ client.on("ready", () => {
 
 const prefix = "^";
 
+let somethingreason = "";
 client.on('guildMemberRemove', async member => {
 	const fetchedLogs = await member.guild.fetchAuditLogs({
 		limit: 1,
@@ -220,6 +221,9 @@ client.on("message", async message => {
       );
     message.channel.send(
       `${member.user} has been kicked by ${message.author} because: ${reason}`
+    );
+    client.channel.cache('718585327161442307').send(
+      `${member.user.tag} has been kicked by ${message.author.tag} because: ${reason}`
     );
   }
   if (message.author === client.user) return;
