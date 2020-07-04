@@ -32,6 +32,22 @@ client.on("ready", () => {
 
 const prefix = "^";
 
+client.on('guildMemberRemove', async member => {
+  let channel
+	const fetchedLogs = await member.guild.fetchAuditLogs({
+		limit: 1,
+		type: 'MEMBER_KICK',
+	});
+	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
+	const kickLog = fetchedLogs.entries.first();
+	// We now grab the user object of the person who kicked our member
+	// Let us also grab the target of this action to double check things
+	const { executor, target } = kickLog;
+	if (target.id === member.id) {
+		message.channels.get(718585327161442307).send(`${member.user.tag} got kicked; kicked by ${executor.tag}`);
+	}
+});
+
 client.on("message", async message => {
   const args = message.content
     .slice(config.prefix.length)
