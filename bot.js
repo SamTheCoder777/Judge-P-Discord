@@ -32,22 +32,6 @@ client.on("ready", () => {
 
 const prefix = "^";
 
-let somethingreason = "";
-client.on('guildMemberRemove', async member => {
-	const fetchedLogs = await member.guild.fetchAuditLogs({
-		limit: 1,
-		type: 'MEMBER_KICK',
-	});
-	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
-	const kickLog = fetchedLogs.entries.first();
-	// We now grab the user object of the person who kicked our member
-	// Let us also grab the target of this action to double check things
-	const { executor, target } = kickLog;
-	if (target.id === member.id) {
-		client.channels.cache.get('718585327161442307').send(`${member.user.tag} got kicked; kicked by ${executor.tag}`);
-	}
-});
-
 client.on("message", async message => {
   const args = message.content
     .slice(config.prefix.length)
@@ -97,6 +81,9 @@ client.on("message", async message => {
     if (!reason) reason = "No reason provided";
 
     member.roles.add(role);
+    client.channel.cache('729063166557814869').send(
+      `${member.user.tag} has been muted by ${message.author.tag} because: ${reason}`
+    );
     return message.reply(
       `${member.user} has been muted by ${message.author} because: ${reason}`
     );
@@ -112,6 +99,9 @@ client.on("message", async message => {
         return message.reply('Make sure you have pinged the user you want to mute and included time in seconds');
       }
       member.roles.add(mutedRole);
+    client.channel.cache('729063166557814869').send(
+      `${member.user.tag} has been tempmuted by ${message.author.tag} for: ${sec} seconds`
+    );
       setTimeout(() => {member.roles.remove(mutedRole);}, sec * 1000);
  }
   
@@ -125,6 +115,9 @@ client.on("message", async message => {
       return message.reply("Please mention a valid member of this server");
 
     member.roles.remove(role);
+    client.channel.cache('729063166557814869').send(
+      `${member.user.tag} has been unmuted by ${message.author.tag}`
+    );
     return message.channel.send(
       `${member.user} has been unmuted by ${message.author}. Please be nice next time!`
     );
@@ -222,7 +215,7 @@ client.on("message", async message => {
     message.channel.send(
       `${member.user} has been kicked by ${message.author} because: ${reason}`
     );
-    client.channel.cache('718585327161442307').send(
+    client.channel.cache('729063166557814869').send(
       `${member.user.tag} has been kicked by ${message.author.tag} because: ${reason}`
     );
   }
@@ -266,6 +259,9 @@ client.on("message", async message => {
     message.channel.send(
       `${member.user} has been banned by ${message.author} because: ${reason}`
     );
+    client.channel.cache('729063166557814869').send(
+      `${member.user.tag} has been banned by ${message.author.tag} because: ${reason}`
+    );
   }
 
   if (message.content.startsWith(prefix + "ping")) {
@@ -275,6 +271,51 @@ client.on("message", async message => {
     m.edit(
       `Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms.`
     );
+  }
+  if (message.content.startsWith(prefix + "tempban")) {
+    // This command must be limited to mods and admins. In this example we just hardcode the role names.
+    // Please read on Array.some() to understand this bit:
+    // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some?
+    let sec = args.slice(2).join(" ");
+    if (!message.member.hasPermission("BAN_MEMBERS")) return;
+
+    // Let's first check if we have a member and if we can kick them!
+    // message.mentions.members is a collection of people that have been mentioned, as GuildMembers.
+    // We can also support getting the member by ID, which would be args[0]
+    let member =
+      message.mentions.channels.first() || message.mentions.members.first();
+    if (!member)
+      return message.channel.send(
+        "Please mention a valid member of this server"
+      );
+    if (!member.kickable)
+      return message.channel.send(
+        "I cannot ban this user! Do they have a higher role? Do I have ban permissions?"
+      );
+
+    // slice(1) removes the first part, which here should be the user mention or ID
+    // join(' ') takes all the various parts to make it a single string.
+    let reason = args.slice(1).join(" ");
+    if (!reason) reason = "No reason provided";
+
+    member.send(`Sorry, you have been banned due to: ${reason}`);
+    await delay(100);
+    // Now, time for a swift kick in the nuts!
+
+    await member
+      .ban(reason)
+      .catch(error =>
+        message.reply(
+          `Sorry ${message.author} I couldn't ban because of : ${error}`
+        )
+      );
+    message.channel.send(
+      `${member.user} has been tempbanned by ${message.author} because: ${reason} for: ${sec}`
+    );
+    client.channel.cache('729063166557814869').send(
+      `${member.user.tag} has been tempbanned by ${message.author.tag} because: ${reason} for: ${sec}`
+    );
+    setTimeout(() => {message.guild.members.unban(member);}, sec * 1000);
   }
   //TODO make help command (edit it)
   if (message.content.startsWith(prefix + "help")) {
@@ -314,6 +355,7 @@ client.on("message", async message => {
         },
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
+	{ name: "^tempmute {@user} {seconds}", value "mutes a user for a given seconds"},
         { name: "^announcement {@channel}", value: "announcement"}
       )
       .setImage("https://cdn.wallpapersafari.com/74/70/mEIxu0.png")
