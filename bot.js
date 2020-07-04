@@ -355,7 +355,8 @@ client.on("message", async message => {
         },
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
-	{ name: "^tempmute {@user} {seconds}", value "mutes a user for a given seconds"},
+	{ name: "^tempmute {@user} {seconds}", value: "mutes a user for a given seconds"},
+	{ name: "^tempban {@user} {seconds}", value: "bans a user for a given seconds"},
         { name: "^announcement {@channel}", value: "announcement"}
       )
       .setImage("https://cdn.wallpapersafari.com/74/70/mEIxu0.png")
