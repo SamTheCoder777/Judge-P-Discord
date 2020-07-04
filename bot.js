@@ -87,15 +87,16 @@ client.on("message", async message => {
   }
   
   if (message.content.startsWith(prefix + "tempmute")){
+      if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
       let mutedRole = message.guild.roles.cache.find(role => role.name == "Muted");
       // This is the member you want to mute
       let member = message.mentions.members.first();
       let sec = args.slice(1).join(" ");
-      if (!sec){
-        return message.reply('Please include the seconds');
+      if (!sec || !member){
+        return message.reply('Make sure you have pinged the user you want to mute and included time in seconds');
       }
-      member.addRole(mutedRole);
-      setTimeout(() => {member.removeRole(muteRole);}, sec * 1000);
+      member.roles.add(mutedRole);
+      setTimeout(() => {member.roles.remove(muteRole);}, sec * 1000);
  }
   
   if (message.content.startsWith(prefix + "unmute")) {
