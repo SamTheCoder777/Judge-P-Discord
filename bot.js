@@ -77,9 +77,9 @@ client.on("message", async message => {
     }else{
     if (!member)
 	    return message.channel.send("You forgot to ping a user!");
-    talkedRecently.add(msg.author.id);
+    talkedRecently.add(message.author.id);
     setTimeout(() => {
-          talkedRecently.delete(msg.author.id);
+          talkedRecently.delete(message.author.id);
         }, 60000);
     message.channel.send(`${message.author}<:MiraSword:724823954912706610>:crossed_swords:<:MiraReverseSword:726910148752310394>${member.user}`);
     }
