@@ -5,6 +5,7 @@
 const http = require("http");
 const express = require("express");
 const app = express();
+const talkedRecently = new Set();
 
 const config = require("./config.json");
 var opus = require("opusscript");
@@ -71,7 +72,17 @@ client.on("message", async message => {
   }
   if (message.content.startsWith(prefix + "fight")) {
     let member = message.mentions.members.first()
+    if (talkedRecently.has(message.author.id)){
+	    message.channel.send("You are on cooldown! Please wait 1 minute!");
+    }else{
+    if (!member)
+	    return message.channel.send("You forgot to ping a user!");
+    talkedRecently.add(msg.author.id);
+    setTimeout(() => {
+          talkedRecently.delete(msg.author.id);
+        }, 60000);
     message.channel.send(`${message.author}<:MiraSword:724823954912706610>:crossed_swords:<:MiraReverseSword:726910148752310394>${member.user}`);
+    }
   }
   if (message.content.startsWith(prefix + "mute")) {
     const role = message.guild.roles.cache.find(role => role.name === "Muted");
