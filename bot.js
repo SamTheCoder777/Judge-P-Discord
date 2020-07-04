@@ -71,7 +71,7 @@ client.on("message", async message => {
   }
   if (message.content.startsWith(prefix + "fight")) {
     let member = message.mentions.members.first()
-    message.channel.send('${message.author}<:MiraSword:724823954912706610>:crossed_swords:<:MiraReverseSword:726910148752310394>${member.user}');
+    message.channel.send(`${message.author}<:MiraSword:724823954912706610>:crossed_swords:<:MiraReverseSword:726910148752310394>${member.user}`);
   }
   if (message.content.startsWith(prefix + "mute")) {
     const role = message.guild.roles.cache.find(role => role.name === "Muted");
