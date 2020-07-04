@@ -33,7 +33,6 @@ client.on("ready", () => {
 const prefix = "^";
 
 client.on('guildMemberRemove', async member => {
-  let channel
 	const fetchedLogs = await member.guild.fetchAuditLogs({
 		limit: 1,
 		type: 'MEMBER_KICK',
@@ -44,7 +43,7 @@ client.on('guildMemberRemove', async member => {
 	// Let us also grab the target of this action to double check things
 	const { executor, target } = kickLog;
 	if (target.id === member.id) {
-		message.channels.get(718585327161442307).send(`${member.user.tag} got kicked; kicked by ${executor.tag}`);
+		client.channels.get(718585327161442307).send(`${member.user.tag} got kicked; kicked by ${executor.tag}`);
 	}
 });
 
