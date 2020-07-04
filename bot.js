@@ -96,7 +96,7 @@ client.on("message", async message => {
         return message.reply('Make sure you have pinged the user you want to mute and included time in seconds');
       }
       member.roles.add(mutedRole);
-      setTimeout(() => {member.roles.remove(muteRole);}, sec * 1000);
+      setTimeout(() => {member.roles.remove(mutedRole);}, sec * 1000);
  }
   
   if (message.content.startsWith(prefix + "unmute")) {
