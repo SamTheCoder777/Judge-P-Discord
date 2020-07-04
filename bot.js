@@ -288,6 +288,8 @@ client.on("message", async message => {
       return message.channel.send(
         "Please mention a valid member of this server"
       );
+    if (!sec)
+      return message.channel.send("Please enter valid time in seconds");
     if (!member.kickable)
       return message.channel.send(
         "I cannot ban this user! Do they have a higher role? Do I have ban permissions?"
@@ -356,7 +358,7 @@ client.on("message", async message => {
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
 	{ name: "^tempmute {@user} {seconds}", value: "mutes a user for a given seconds"},
-	{ name: "^tempban {@user} {seconds}", value: "bans a user for a given seconds"},
+	{ name: "^tempban {@user} {reason (optional)} {seconds}", value: "bans a user for a given seconds"},
         { name: "^announcement {@channel}", value: "announcement"}
       )
       .setImage("https://cdn.wallpapersafari.com/74/70/mEIxu0.png")
