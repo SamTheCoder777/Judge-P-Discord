@@ -60,7 +60,7 @@ client.on("message", async message => {
 	let warn2 = message.guild.roles.cache.get('729796899670065162');
 	let member = message.mentions.members.first();
 	let reason = args.slice(1).join(" ");
-	if (member.roles.cache.has(warn1)) {
+	if (message.member.roles.cache.has(warn1)) {
 		member.roles.add(warn2);
 		member.roles.remove(warn1);
 		message.channel.send(`${member.user}, this is your second warn for: ${reason}`);
@@ -69,7 +69,7 @@ client.on("message", async message => {
       		`${member.user.tag} has been warned (2nd time) for: ${reason}`
     		);
 	}
-	if (member.roles.cache.has(warn2)) {
+	if (message.member.roles.cache.has(warn2)) {
 		message.channel.send(`${message.author}, this is ${member.user}'s 3rd warn! Oh look! A ban?`);
 		member.send(`${member.user}, you have been warned (3rd time!!!!!) for: ${reason}`);
 	    	client.channels.cache.get('729063166557814869').send(
