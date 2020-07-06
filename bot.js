@@ -55,6 +55,36 @@ client.on("message", async message => {
         // any possible errors that might have occurred (like no Internet connection)
       });
   }
+  if (message.content.startsWith(prefix + "warn")) {
+	let warn1 = message.guild.roles.cache.get('729796826416414790');
+	let warn2 = message.guild.roles.cache.get('729796899670065162');
+	let member = message.mentions.members.first();
+	let reason = args.slice(1).join(" ");
+	if (member.roles.has(warn1)) {
+		member.roles.add(warn2);
+		member.roles.remove(warn1);
+		message.channel.send(`${member.user}, this is your second warn for: ${reason}`);
+		member.send(`${member.user}, you have been warned (2nd time) for: ${reason}`);
+	    	client.channels.cache.get('729063166557814869').send(
+      		`${member.user.tag} has been warned (2nd time) for: ${reason}`
+    		);
+	}
+	if (member.roles.has(warn2)) {
+		message.channel.send(`${message.author}, this is ${member.user}'s 3rd warn! Oh look! A ban?`);
+		member.send(`${member.user}, you have been warned (3rd time!!!!!) for: ${reason}`);
+	    	client.channels.cache.get('729063166557814869').send(
+      		`${member.user.tag} has been warned (3rd time... Ban?) for: ${reason}`
+    		);
+	}
+	else{
+		member.roles.add(warn1);
+		message.channel.send(`${member.user}, this is your first warn for: ${reason}`);
+		member.send(`${member.user}, you have been warned (first time) for: ${reason}`);
+	    	client.channels.cache.get('729063166557814869').send(
+      		`${member.user.tag} has been warned (first time) for: ${reason}`
+    		);
+	}
+  }
   if (message.content.startsWith(prefix + "suggest")) {
     let suggestion = message.content.slice("^suggest".length);
     if (!suggestion) {
@@ -370,6 +400,7 @@ client.on("message", async message => {
           name: "^bd {#channel} {message}",
           value: "broadcasts in a mentioned channel\n"
         },
+        { name: "^warn {@user} {reason}", value: "warns a user\n" },
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
 	{ name: "^tempmute {@user} {seconds}", value: "mutes a user for a given seconds"},
