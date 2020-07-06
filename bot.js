@@ -55,7 +55,14 @@ client.on("message", async message => {
         // any possible errors that might have occurred (like no Internet connection)
       });
   }
+  if (message.content.startsWith(prefix + "clearwarn") {
+      	let warn1 = message.guild.roles.cache.get('729796826416414790');
+	let warn2 = message.guild.roles.cache.get('729796899670065162');
+	let member = message.mentions.members.first();
+	
+  }
   if (message.content.startsWith(prefix + "warn")) {
+	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
 	let warn1 = message.guild.roles.cache.get('729796826416414790');
 	let warn2 = message.guild.roles.cache.get('729796899670065162');
 	let member = message.mentions.members.first();
