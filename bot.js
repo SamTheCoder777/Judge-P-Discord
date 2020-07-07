@@ -33,7 +33,7 @@ client.on("ready", () => {
   });
 });
 
-bot.on('guildMemberAdd', member => {
+client.on('guildMemberAdd', member => {
     if(warned1.has(member.id))
 	    member.roles.add('729796826416414790');
     else if(warned3.has(member.id))
