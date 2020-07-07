@@ -71,8 +71,8 @@ client.on("message", async message => {
 	let member = message.mentions.members.first();
 	member.roles.remove(warn1);
 	member.roles.remove(warn2);
-	warned1.remove(member.id);
-	warned2.remove(member.id);
+	warned1.delete(member.id);
+	warned2.delete(member.id);
   }
   if (message.content.startsWith(prefix + "warn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
@@ -90,7 +90,7 @@ client.on("message", async message => {
 	    	client.channels.cache.get('729063166557814869').send(
       		`${member.user.tag} has been warned (2nd time) for: ${reason}`
     		);
-		warned1.remove(member.id);
+		warned1.delete(member.id);
 		warned2.add(member.id);
 	}
 	else if (member.roles.cache.has('729796899670065162')) {
@@ -99,7 +99,15 @@ client.on("message", async message => {
 	    	client.channels.cache.get('729063166557814869').send(
       		`${member.user.tag} has been warned (3rd time... Ban?) for: ${reason}`
     		);
-		warned2.remove(member.id);
+		warned2.delete(member.id);
+   		 await member
+      		.ban()
+		.catch(error =>
+        	message.reply(
+          	`Sorry ${message.author} I couldn't ban because of : ${error}`
+        	)
+      		);
+		message.channel.send(`${member.user} got banned. Reason: 3 warns`);
 	}
 	else{
 		member.roles.add(warn1);
@@ -427,6 +435,7 @@ client.on("message", async message => {
           value: "broadcasts in a mentioned channel\n"
         },
         { name: "^warn {@user} {reason}", value: "warns a user\n" },
+        { name: "^clearwarn {@user}", value: "clears all warns of a user\n" },
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
 	{ name: "^tempmute {@user} {seconds}", value: "mutes a user for a given seconds"},
