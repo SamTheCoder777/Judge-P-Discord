@@ -413,6 +413,7 @@ client.on("message", async message => {
         { name: "^avatar", value: "shows your avatar\n" },
         { name: "^ping", value: "shows your ping\n" },
         { name: "^online", value: "shows how many users are online\n" },
+        { name: "^fight {@user}", value: "fights the user\n" },
         {
           name: "\u200B",
           value: "\b EXPERIMENTAL FEATURES (NOT PERFECT!!!) \b"
