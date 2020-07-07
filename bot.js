@@ -69,10 +69,12 @@ client.on("message", async message => {
       	let warn1 = message.guild.roles.cache.get('729796826416414790');
 	let warn2 = message.guild.roles.cache.get('729796899670065162');
 	let member = message.mentions.members.first();
+	if (!member) return message.reply("Please ping the user");
 	member.roles.remove(warn1);
 	member.roles.remove(warn2);
 	warned1.delete(member.id);
 	warned2.delete(member.id);
+	message.channel.send("Done!");
   }
   if (message.content.startsWith(prefix + "warn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
