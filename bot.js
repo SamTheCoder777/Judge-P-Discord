@@ -65,10 +65,14 @@ client.on("message", async message => {
       });
   }
   if (message.content.startsWith(prefix + "clearwarn")) {
+	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
       	let warn1 = message.guild.roles.cache.get('729796826416414790');
 	let warn2 = message.guild.roles.cache.get('729796899670065162');
 	let member = message.mentions.members.first();
-	
+	member.roles.remove(warn1);
+	member.roles.remove(warn2);
+	warned1.remove(member.id);
+	warned2.remove(member.id);
   }
   if (message.content.startsWith(prefix + "warn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
@@ -86,7 +90,7 @@ client.on("message", async message => {
 	    	client.channels.cache.get('729063166557814869').send(
       		`${member.user.tag} has been warned (2nd time) for: ${reason}`
     		);
-		warned1.remove(member.id)
+		warned1.remove(member.id);
 		warned2.add(member.id);
 	}
 	else if (member.roles.cache.has('729796899670065162')) {
