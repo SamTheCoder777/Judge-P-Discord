@@ -6,6 +6,8 @@ const http = require("http");
 const express = require("express");
 const app = express();
 const talkedRecently = new Set();
+const warned1 = new Set();
+const warned2 = new Set();
 
 const config = require("./config.json");
 var opus = require("opusscript");
@@ -29,6 +31,13 @@ client.on("ready", () => {
   client.user.setActivity("Helping World President", {
     type: "PLAYING"
   });
+});
+
+bot.on('guildMemberAdd', member => {
+    if(warned1.has(member.id))
+	    member.roles.add('729796826416414790');
+    else if(warned3.has(member.id))
+	    member.roles.add('729796899670065162');
 });
 
 const prefix = "^";
@@ -77,6 +86,8 @@ client.on("message", async message => {
 	    	client.channels.cache.get('729063166557814869').send(
       		`${member.user.tag} has been warned (2nd time) for: ${reason}`
     		);
+		warned1.remove(member.id)
+		warned2.add(member.id);
 	}
 	else if (member.roles.cache.has('729796899670065162')) {
 		message.channel.send(`${message.author}, this is ${member.user}'s 3rd warn! Oh look! A ban?`);
@@ -84,6 +95,7 @@ client.on("message", async message => {
 	    	client.channels.cache.get('729063166557814869').send(
       		`${member.user.tag} has been warned (3rd time... Ban?) for: ${reason}`
     		);
+		warned2.remove(member.id);
 	}
 	else{
 		member.roles.add(warn1);
@@ -92,6 +104,7 @@ client.on("message", async message => {
 	    	client.channels.cache.get('729063166557814869').send(
       		`${member.user.tag} has been warned (first time) for: ${reason}`
     		);
+		warned1.add(member.id);
 	}
   }
   if (message.content.startsWith(prefix + "suggest")) {
