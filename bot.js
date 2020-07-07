@@ -75,6 +75,9 @@ client.on("message", async message => {
 	warned1.delete(member.id);
 	warned2.delete(member.id);
 	message.channel.send("Done!");
+	client.channels.cache.get('729063166557814869').send(
+      	`${member.user.tag}'s warns are cleared by ${message.author.tag}`
+  	);
   }
   if (message.content.startsWith(prefix + "warn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
