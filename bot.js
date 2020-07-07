@@ -49,6 +49,21 @@ client.on("message", async message => {
     .split(/ +/g);
   const command = args.shift().toLowerCase();
   let messageArray = message.content.split(" ");
+  if (message.content.startsWith(prefix + "clear")){
+	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;	
+	const args = message.content.split(' ').slice(1); // All arguments behind the command name with the prefix
+	const amount = args.join(' '); // Amount of messages which should be deleted
+
+	if (!amount) return msg.reply('You haven\'t given an amount of messages which should be deleted!'); // Checks if the `amount` parameter is given
+	if (isNaN(amount)) return msg.reply('The amount needs to be a number!'); // Checks if the `amount` parameter is a number. If not, the command throws an error
+
+	if (amount > 200) return msg.reply('You can`t delete more than 200 messages at once!'); // Checks if the `amount` integer is bigger than 100
+	if (amount < 1) return msg.reply('You have to delete at least 1 message!'); // Checks if the `amount` integer is smaller than 1
+
+	await msg.channel.messages.fetch({ limit: amount }).then(messages => { // Fetches the messages
+	    msg.channel.bulkDelete(messages // Bulk deletes all messages that have been fetched and are not older than 14 days (due to the Discord API)
+	)});	  
+  }
   if (message.content.startsWith(prefix + "google")) {
     let search = message.content.slice("^google".length);
     if (!search) {
@@ -446,7 +461,8 @@ client.on("message", async message => {
         { name: "^unmute {@user}", value: "unmutes a user\n" },
 	{ name: "^tempmute {@user} {seconds}", value: "mutes a user for a given seconds"},
 	{ name: "^tempban {@user} {reason (optional)} {seconds}", value: "bans a user for a given seconds"},
-        { name: "^announcement {@channel}", value: "announcement"}
+        { name: "^announcement {@channel}", value: "announcement"},
+	{ name: "^clear {number}", value: "clears certain number of messages"},
       )
       .setImage("https://cdn.wallpapersafari.com/74/70/mEIxu0.png")
       .setTimestamp()
