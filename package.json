@@ -26,7 +26,7 @@
     "ytdl-core-discord": "^1.2.0",
     "node": "^14.3.0",
     "google-it": "^1.5.0",
-    "util": "^0.12.3"
+    "util": "^0.12.3",
     "node-persist": "^3.1.0"
   },
   "engines": {
