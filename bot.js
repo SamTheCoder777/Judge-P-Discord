@@ -83,7 +83,7 @@ client.on("message", async message => {
         // any possible errors that might have occurred (like no Internet connection)
       });
   }
-  if (message.content.startsWith(prefix + "clearwarn")) {
+  if (message.content.startsWith(prefix + "clwarn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
       	let warn1 = message.guild.roles.cache.get('729796826416414790');
 	let warn2 = message.guild.roles.cache.get('729796899670065162');
@@ -463,7 +463,7 @@ client.on("message", async message => {
           value: "broadcasts in a mentioned channel\n"
         },
         { name: "^warn {@user} {reason}", value: "warns a user\n" },
-        { name: "^clearwarn {@user}", value: "clears all warns of a user\n" },
+        { name: "^clwarn {@user}", value: "clears all warns of a user\n" },
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
 	{ name: "^tempmute {@user} {seconds}", value: "mutes a user for a given seconds"},
