@@ -35,7 +35,7 @@ client.on("ready", () => {
 });
 
 client.on('guildMemberAdd', member => {
-    const role = message.guild.roles.cache.find(role => role.name === "Muted");
+    const role = member.guild.roles.cache.find(role => role.name === "Muted");
     if(wasMuted.has(member.id))
 	    member.roles.add(role);
     if(warned1.has(member.id))
