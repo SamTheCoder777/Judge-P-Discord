@@ -125,7 +125,7 @@ client.on("message", async message => {
     		);
 		warned2.delete(member.id);
    		 await member
-      		.ban()
+      		.ban(7)
 		.catch(error =>
         	message.reply(
           	`Sorry ${message.author} I couldn't ban because of : ${error}`
@@ -356,7 +356,7 @@ client.on("message", async message => {
     // Now, time for a swift kick in the nuts!
 
     await member
-      .ban(reason)
+      .ban({days:7,reason: reason})
       .catch(error =>
         message.reply(
           `Sorry ${message.author} I couldn't ban because of : ${error}`
