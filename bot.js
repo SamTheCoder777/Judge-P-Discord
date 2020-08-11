@@ -30,7 +30,7 @@ const delay = msec => new Promise(resolve => setTimeout(resolve, msec));
 
 client.on("ready", () => {
   console.log("I am Online\nI am Online");
-  client.user.setActivity(status, {
+  client.user.setActivity("Sumi best girl", {
     type: "PLAYING"
   });
 });
@@ -83,14 +83,6 @@ client.on("message", async message => {
       .catch(e => {
         // any possible errors that might have occurred (like no Internet connection)
       });
-  }
-  if (message.content.startsWith(prefix + "setstatus")) {
-	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
-	let setting = message.content.slice("^setstatus".length);
-	status = setting;
-	message.channel.send('setting up...')
-    .then(msg => client.destroy())
-    .then(() => client.login(process.env.TOKEN));
   }
   if (message.content.startsWith(prefix + "clwarn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
@@ -479,7 +471,6 @@ client.on("message", async message => {
 	{ name: "^tempban {@user} {reason (optional)} {seconds}", value: "bans a user for a given seconds"},
         { name: "^announcement {@channel}", value: "announcement"},
 	{ name: "^clear {number}", value: "clears certain number of messages"},
-	{ name: "^setstatus {status}", value: "sets status of the bot"},
       )
       .setImage("https://cdn.wallpapersafari.com/74/70/mEIxu0.png")
       .setTimestamp()
