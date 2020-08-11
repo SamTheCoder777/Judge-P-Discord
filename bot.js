@@ -201,14 +201,17 @@ client.on("message", async message => {
       let member = message.mentions.members.first();
       let sec = args.slice(1).join(" ");
       if (!sec || !member){
-        return message.reply('Make sure you have pinged the user you want to mute and included time in seconds');
+        return message.reply('Make sure you have pinged the user you want to mute and included time in minutes');
       }
+      if (isNaN(sec)) return message.reply('The amount needs to be a number!');
+	  
       member.roles.add(mutedRole);
+	message.channel.send(`${member.user.tag} has been tempmuted for: ${sec} minutes`);
     wasMuted.add(member.id);
     client.channels.cache.get('729063166557814869').send(
-      `${member.user.tag} has been tempmuted by ${message.author.tag} for: ${sec} seconds`
+      `${member.user.tag} has been tempmuted by ${message.author.tag} for: ${sec} minutes`
     );
-      setTimeout(() => {member.roles.remove(mutedRole);    wasMuted.delete(member.id);}, sec * 1000);
+      setTimeout(() => {member.roles.remove(mutedRole);    wasMuted.delete(member.id);}, sec * 60000);
  }
   
   if (message.content.startsWith(prefix + "unmute")) {
@@ -396,7 +399,7 @@ client.on("message", async message => {
         "Please mention a valid member of this server"
       );
     if (!sec)
-      return message.channel.send("Please enter valid time in seconds");
+      return message.channel.send("Please enter valid time in days");
     if (!member.kickable)
       return message.channel.send(
         "I cannot ban this user! Do they have a higher role? Do I have ban permissions?"
@@ -407,7 +410,7 @@ client.on("message", async message => {
     let reason = args.slice(1).join(" ");
     if (!reason) reason = "No reason provided";
 
-    member.send(`Sorry, you have been banned due to: ${reason}`);
+    member.send(`Sorry, you have been temp banned due to: ${reason} for: ${sec} days`);
     await delay(100);
     // Now, time for a swift kick in the nuts!
 
@@ -419,12 +422,12 @@ client.on("message", async message => {
         )
       );
     message.channel.send(
-      `${member.user} has been tempbanned by ${message.author} because: ${reason} for: ${sec}`
+      `${member.user} has been tempbanned by ${message.author} because: ${reason} for: ${sec} days`
     );
     client.channels.cache.get('729063166557814869').send(
-      `${member.user.tag} has been tempbanned by ${message.author.tag} because: ${reason} for: ${sec}`
+      `${member.user.tag} has been tempbanned by ${message.author.tag} because: ${reason} for: ${sec} days`
     );
-    setTimeout(() => {message.guild.members.unban(member);}, sec * 1000);
+    setTimeout(() => {message.guild.members.unban(member);}, sec * 86,400,000);
   }
   //TODO make help command (edit it)
   if (message.content.startsWith(prefix + "help")) {
@@ -467,8 +470,8 @@ client.on("message", async message => {
         { name: "^clwarn {@user}", value: "clears all warns of a user\n" },
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
-	{ name: "^tempmute {@user} {seconds}", value: "mutes a user for a given seconds"},
-	{ name: "^tempban {@user} {reason (optional)} {seconds}", value: "bans a user for a given seconds"},
+	{ name: "^tempmute {@user} {minutes}", value: "mutes a user for a given minutes"},
+	{ name: "^tempban {@user} {reason (optional)} {days}", value: "bans a user for a given days"},
         { name: "^announcement {@channel}", value: "announcement"},
 	{ name: "^clear {number}", value: "clears certain number of messages"},
       )
