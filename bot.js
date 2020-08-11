@@ -9,6 +9,7 @@ const talkedRecently = new Set();
 const warned1 = new Set();
 const warned2 = new Set();
 const wasMuted = new Set();
+const status = "";
 
 const config = require("./config.json");
 var opus = require("opusscript");
@@ -29,7 +30,7 @@ const delay = msec => new Promise(resolve => setTimeout(resolve, msec));
 
 client.on("ready", () => {
   console.log("I am Online\nI am Online");
-  client.user.setActivity("Helping World President", {
+  client.user.setActivity(status, {
     type: "PLAYING"
   });
 });
@@ -82,6 +83,11 @@ client.on("message", async message => {
       .catch(e => {
         // any possible errors that might have occurred (like no Internet connection)
       });
+  }
+  if (message.content.startsWith(prefix + "setstatus")) {
+	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
+	let setting = message.content.slice("^setstatus".length);
+	status = setting;
   }
   if (message.content.startsWith(prefix + "clwarn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
@@ -470,6 +476,7 @@ client.on("message", async message => {
 	{ name: "^tempban {@user} {reason (optional)} {seconds}", value: "bans a user for a given seconds"},
         { name: "^announcement {@channel}", value: "announcement"},
 	{ name: "^clear {number}", value: "clears certain number of messages"},
+	{ name: "^setstatus {status}", value: "sets status of the bot"},
       )
       .setImage("https://cdn.wallpapersafari.com/74/70/mEIxu0.png")
       .setTimestamp()
