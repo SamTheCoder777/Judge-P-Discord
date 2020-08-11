@@ -9,7 +9,7 @@ const talkedRecently = new Set();
 const warned1 = new Set();
 const warned2 = new Set();
 const wasMuted = new Set();
-const status = "";
+var status = "";
 
 const config = require("./config.json");
 var opus = require("opusscript");
