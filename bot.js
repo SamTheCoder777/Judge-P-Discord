@@ -9,7 +9,7 @@ const talkedRecently = new Set();
 const warned1 = new Set();
 const warned2 = new Set();
 const wasMuted = new Set();
-var status = "";
+var status = "Helping World President";
 
 const config = require("./config.json");
 var opus = require("opusscript");
@@ -88,6 +88,9 @@ client.on("message", async message => {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
 	let setting = message.content.slice("^setstatus".length);
 	status = setting;
+	channel.send('setting up...')
+    .then(msg => client.destroy())
+    .then(() => client.login(process.env.TOKEN));
   }
   if (message.content.startsWith(prefix + "clwarn")) {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
