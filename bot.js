@@ -88,7 +88,7 @@ client.on("message", async message => {
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;
 	let setting = message.content.slice("^setstatus".length);
 	status = setting;
-	channel.send('setting up...')
+	message.channel.send('setting up...')
     .then(msg => client.destroy())
     .then(() => client.login(process.env.TOKEN));
   }
