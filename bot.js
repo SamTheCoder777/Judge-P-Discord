@@ -415,7 +415,7 @@ client.on("message", async message => {
     // Now, time for a swift kick in the nuts!
 
     await member
-      .ban(reason)
+      .ban(7)
       .catch(error =>
         message.reply(
           `Sorry ${message.author} I couldn't ban because of : ${error}`
