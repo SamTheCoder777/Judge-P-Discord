@@ -415,7 +415,7 @@ client.on("message", async message => {
     // Now, time for a swift kick in the nuts!
 
     await member
-      .ban(7)
+      .ban({days:7,reason: reason})
       .catch(error =>
         message.reply(
           `Sorry ${message.author} I couldn't ban because of : ${error}`
@@ -427,7 +427,7 @@ client.on("message", async message => {
     client.channels.cache.get('729063166557814869').send(
       `${member.user.tag} has been tempbanned by ${message.author.tag} because: ${reason} for: ${sec} days`
     );
-    setTimeout(() => {message.guild.members.unban(member);}, sec * 86,400,000);
+    setTimeout(() => {message.guild.members.unban(member);}, sec * 86400000);
   }
   //TODO make help command (edit it)
   if (message.content.startsWith(prefix + "help")) {
