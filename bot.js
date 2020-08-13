@@ -386,7 +386,7 @@ client.on("message", async message => {
     // This command must be limited to mods and admins. In this example we just hardcode the role names.
     // Please read on Array.some() to understand this bit:
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some?
-    let sec = args.slice(1).join(" ");
+    let sec = args[1];
     if (!message.member.hasPermission("BAN_MEMBERS")) return;
 
     // Let's first check if we have a member and if we can kick them!
