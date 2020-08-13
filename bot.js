@@ -386,7 +386,7 @@ client.on("message", async message => {
     // This command must be limited to mods and admins. In this example we just hardcode the role names.
     // Please read on Array.some() to understand this bit:
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some?
-    let sec = args.slice(2).join(" ");
+    let sec = args.slice(1).join(" ");
     if (!message.member.hasPermission("BAN_MEMBERS")) return;
 
     // Let's first check if we have a member and if we can kick them!
@@ -407,7 +407,7 @@ client.on("message", async message => {
 
     // slice(1) removes the first part, which here should be the user mention or ID
     // join(' ') takes all the various parts to make it a single string.
-    let reason = args.slice(1).join(" ");
+    let reason = args.slice(2).join(" ");
     if (!reason) reason = "No reason provided";
 
     member.send(`Sorry, you have been temp banned due to: ${reason} for: ${sec} days`);
@@ -471,7 +471,7 @@ client.on("message", async message => {
         { name: "^mute {@user} {reason}", value: "mutes a user\n" },
         { name: "^unmute {@user}", value: "unmutes a user\n" },
 	{ name: "^tempmute {@user} {minutes}", value: "mutes a user for a given minutes"},
-	{ name: "^tempban {@user} {reason (optional)} {days}", value: "bans a user for a given days"},
+	{ name: "^tempban {@user} {days} {reason (optional)}", value: "bans a user for a given days"},
         { name: "^announcement {@channel}", value: "announcement"},
 	{ name: "^clear {number}", value: "clears certain number of messages"},
       )
