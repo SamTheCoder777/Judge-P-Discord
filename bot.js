@@ -54,6 +54,9 @@ client.on("message", async message => {
     .split(/ +/g);
   const command = args.shift().toLowerCase();
   let messageArray = message.content.split(" ");
+  if (message.content.startsWith(prefix + "jetkick")){
+  	message.channel.send("JΞΓҜICҜ has made a dynamic entry!");
+  }
   if (message.content.startsWith(prefix + "clear")){
 	if (!message.member.hasPermission("MANAGE_MESSAGES")) return;	
 	const args = message.content.split(' ').slice(1); // All arguments behind the command name with the prefix
@@ -445,6 +448,14 @@ client.on("message", async message => {
         { name: "^ping", value: "shows your ping\n" },
         { name: "^online", value: "shows how many users are online\n" },
         { name: "^fight {@user}", value: "fights the user\n" },
+        {
+          name: "\u200B",
+          value: "\b Custom Commands \b"
+        },
+        {
+          name: "^jetkick",
+          value: "This is custom command for user JetKick#7777"
+        },
         {
           name: "\u200B",
           value: "\b EXPERIMENTAL FEATURES (NOT PERFECT!!!) \b"
