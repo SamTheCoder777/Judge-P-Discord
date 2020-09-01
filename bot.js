@@ -123,7 +123,7 @@ client.on("message", async message => {
 	}
 	else if (member.roles.cache.has('729796899670065162')) {
 		message.channel.send(`${message.author}, this is ${member.user}'s 3rd warn! Oh look! A ban?`);
-		member.send(`${member.user}, you have been warned (3rd time!!!!!) for: ${reason}`);
+		member.send(`${member.user}, you have been banned due to 3 warns (You can appeal here: https://docs.google.com/forms/d/e/1FAIpQLSeoGdsuzndfHRroJCpB5GGGWPdQz3-Ka2FMUG5BV1vYAt9EDA/viewform)`);
 	    	client.channels.cache.get('729063166557814869').send(
       		`${member.user.tag} has been warned (3rd time... Ban?) for: ${reason}`
     		);
@@ -135,7 +135,7 @@ client.on("message", async message => {
           	`Sorry ${message.author} I couldn't ban because of : ${error}`
         	)
       		);
-		message.channel.send(`${member.user} got banned. Reason: 3 warns`);
+		message.channel.send(`${member.user} got banned. Reason: 3 warns (${reason})`);
 	}
 	else{
 		member.roles.add(warn1);
@@ -358,7 +358,7 @@ client.on("message", async message => {
     let reason = args.slice(1).join(" ");
     if (!reason) reason = "No reason provided";
 
-    member.send(`Sorry, you have been banned due to: ${reason}`);
+    member.send(`Sorry, you have been banned due to: ${reason} (You can appeal here: https://docs.google.com/forms/d/e/1FAIpQLSeoGdsuzndfHRroJCpB5GGGWPdQz3-Ka2FMUG5BV1vYAt9EDA/viewform)`);
     await delay(100);
     // Now, time for a swift kick in the nuts!
 
